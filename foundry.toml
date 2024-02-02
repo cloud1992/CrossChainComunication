@@ -2,5 +2,9 @@
 src = "src"
 out = "out"
 libs = ["lib"]
+cache_path  = 'cache_forge'
+optimizer = true
+deny_warnings = true
+solc-version = "0.8.21"
 
 
