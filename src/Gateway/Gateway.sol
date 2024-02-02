@@ -2,11 +2,12 @@
 pragma solidity ^0.8.13;
 
 import "./GatewayConfig.sol";
+import "../WormHole/WormHoleGateway.sol";
 
-contract Gateway is GatewayConfig {
+contract Gateway is GatewayConfig, WormHoleGateway {
     receive() external payable {}
 
-    constructor() {
+    constructor(address _wormholeRelayer) WormHoleGateway(_wormholeRelayer) {
         __Ownable_init(msg.sender);
     }
 
