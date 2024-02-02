@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import "./GatewayConfig.sol":;
+import "./GatewayConfig.sol";
 
 contract Gateway is GatewayConfig {
     receive() external payable {}
