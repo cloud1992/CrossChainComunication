@@ -1,5 +1,5 @@
 # Compiler files
-cache/
+cache_forge/
 out/
 
 # Ignores development broadcast logs
