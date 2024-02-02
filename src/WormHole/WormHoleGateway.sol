@@ -1,8 +1,15 @@
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.13;
+
 import "wormhole-solidity-sdk/interfaces/IWormholeRelayer.sol";
 import "wormhole-solidity-sdk/interfaces/IWormholeReceiver.sol";
 
 contract WormHoleGateway is IWormholeReceiver {
-    event WormHoleGateway(string greeting, uint16 senderChain, address sender);
+    event WormHoleGatewayReceive(
+        string greeting,
+        uint16 senderChain,
+        address sender
+    );
 
     uint256 constant GAS_LIMIT = 50_000;
 
@@ -22,14 +29,14 @@ contract WormHoleGateway is IWormholeReceiver {
         (cost, ) = wormholeRelayer.quoteEVMDeliveryPrice(
             targetChain,
             valueOnDst,
-            gasOnDst,
+            gasOnDst
         );
     }
 
     function sendWormHole(
         uint16 targetChain,
         address targetAddress,
-        bytes calldata payload
+        bytes calldata payload,
         uint valueOnDst,
         uint gasOnDst
     ) public payable {
@@ -59,6 +66,6 @@ contract WormHoleGateway is IWormholeReceiver {
             (string, address)
         );
         latestGreeting = greeting;
-        emit WormHoleGateway(latestGreeting, sourceChain, sender);
+        emit WormHoleGatewayReceive(latestGreeting, sourceChain, sender);
     }
 }
