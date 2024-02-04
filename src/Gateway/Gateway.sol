@@ -21,19 +21,29 @@ contract Gateway is GatewayConfig, WormHoleGateway {
     function send(
         uint dstChainId,
         address to,
-        bytes calldata adapterParams,
-        bytes calldata payload
-    ) external payable OnlyApproved {
-        // do something
+        string calldata text,
+        uint valueOnDst,
+        uint gasOnDst
+    ) external payable {
+        // sendWormHole
+        sendWormHole(
+            chainIdToWormHoleChainId[dstChainId],
+            to,
+            abi.encode(text, msg.sender),
+            valueOnDst,
+            gasOnDst
+        );
     }
 
     // internal function _receive
-    function _receive(
-        uint srcChainId,
-        address from,
-        bytes calldata adapterParams,
-        bytes calldata payload
-    ) internal {
-        // do something
+    function _recieve(uint srcChainId, bytes memory payload) internal override {
+        // decode payload
+        (string memory text, address from) = abi.decode(
+            payload,
+            (string, address)
+        );
+        latestText = text;
+        srcChainId;
+        from;
     }
 }

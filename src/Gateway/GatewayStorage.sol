@@ -10,12 +10,24 @@ abstract contract GatewayStorage is OwnableUpgradeable {
         uint nativeOnDst; // native token on destination
         uint gasOnDst; // gas on destination
     }
+    // string to store latest text
+    string public latestText;
+    // enum for cross-chain provider (layerZero,, WhormHole...)
+    enum CrossChainProvider {
+        LayerZero,
+        WhormHole
+    }
 
     // mapping for real chainId and protocol chainId
-    // for whormhole
-    mapping(uint => uint) public chainIdMapWhormHole;
+
     // for LayerZero
-    mapping(uint => uint) public chainIdMapLayerZero;
+    mapping(uint => uint16) public chainIdToLayerZeroChainId;
+    mapping(uint16 => uint) public layerZeroChainIdToChainId;
+
+    // for whormhole
+    mapping(uint => uint16) public chainIdToWormHoleChainId;
+    mapping(uint16 => uint) public wormHoleChainIdToChainId;
+
     // mapping for onlyApproved
     mapping(address => bool) internal _onlyApproved;
 }

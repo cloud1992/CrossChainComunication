@@ -8,4 +8,20 @@ abstract contract GatewayConfig is GatewayStorage {
     function setOnlyApproved(address _addr, bool _status) external onlyOwner {
         _onlyApproved[_addr] = _status;
     }
+
+    function setChainToLZChainId(
+        uint chainId,
+        uint16 lzChainId
+    ) external onlyOwner {
+        chainIdToLayerZeroChainId[chainId] = lzChainId;
+        layerZeroChainIdToChainId[lzChainId] = chainId;
+    }
+
+    function setChainToWHChainId(
+        uint chainId,
+        uint16 whChainId
+    ) external onlyOwner {
+        chainIdToWormHoleChainId[chainId] = whChainId;
+        wormHoleChainIdToChainId[whChainId] = chainId;
+    }
 }

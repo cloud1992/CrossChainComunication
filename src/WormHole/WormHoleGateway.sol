@@ -4,18 +4,10 @@ pragma solidity ^0.8.13;
 import "wormhole-solidity-sdk/interfaces/IWormholeRelayer.sol";
 import "wormhole-solidity-sdk/interfaces/IWormholeReceiver.sol";
 
-contract WormHoleGateway is IWormholeReceiver {
-    event WormHoleGatewayReceive(
-        string greeting,
-        uint16 senderChain,
-        address sender
-    );
-
-    uint256 constant GAS_LIMIT = 50_000;
+abstract contract WormHoleGateway is IWormholeReceiver {
+    event WormHoleGatewayReceive(uint16 senderChain);
 
     IWormholeRelayer public immutable wormholeRelayer;
-
-    string public latestGreeting;
 
     constructor(address _wormholeRelayer) {
         wormholeRelayer = IWormholeRelayer(_wormholeRelayer);
@@ -36,12 +28,13 @@ contract WormHoleGateway is IWormholeReceiver {
     function sendWormHole(
         uint16 targetChain,
         address targetAddress,
-        bytes calldata payload,
+        bytes memory payload,
         uint valueOnDst,
         uint gasOnDst
     ) public payable {
         uint256 cost = quoteCrossChainApp(targetChain, valueOnDst, gasOnDst);
         require(msg.value >= cost);
+        // send the payload to the wormhole
         wormholeRelayer.sendPayloadToEvm{value: cost}(
             targetChain,
             targetAddress,
@@ -59,13 +52,9 @@ contract WormHoleGateway is IWormholeReceiver {
         bytes32 // unique identifier of delivery
     ) public payable override {
         require(msg.sender == address(wormholeRelayer), "Only relayer allowed");
-
-        // Parse the payload and do the corresponding actions!
-        (string memory greeting, address sender) = abi.decode(
-            payload,
-            (string, address)
-        );
-        latestGreeting = greeting;
-        emit WormHoleGatewayReceive(latestGreeting, sourceChain, sender);
+        _recieve(sourceChain, payload);
+        emit WormHoleGatewayReceive(sourceChain);
     }
+
+    function _recieve(uint srcChainId, bytes memory payload) internal virtual;
 }
