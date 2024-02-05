@@ -31,7 +31,7 @@ abstract contract WormHoleGateway is IWormholeReceiver {
         bytes memory payload,
         uint valueOnDst,
         uint gasOnDst
-    ) public payable {
+    ) internal {
         uint256 cost = quoteCrossChainApp(targetChain, valueOnDst, gasOnDst);
         require(msg.value >= cost);
         // send the payload to the wormhole
@@ -42,6 +42,10 @@ abstract contract WormHoleGateway is IWormholeReceiver {
             valueOnDst, // native token to send on destination
             gasOnDst // gas to use on destination
         );
+        // refound the rest
+        if (msg.value > cost) {
+            payable(msg.sender).transfer(msg.value - cost);
+        }
     }
 
     function receiveWormholeMessages(

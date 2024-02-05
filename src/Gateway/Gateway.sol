@@ -7,9 +7,9 @@ import "../WormHole/WormHoleGateway.sol";
 contract Gateway is GatewayConfig, WormHoleGateway {
     receive() external payable {}
 
-    constructor(address _wormholeRelayer) WormHoleGateway(_wormholeRelayer) {
-        __Ownable_init(msg.sender);
-    }
+    constructor(
+        address _wormholeRelayer
+    ) WormHoleGateway(_wormholeRelayer) GatewayConfig(msg.sender) {}
 
     // onlyApproved modifier
     modifier OnlyApproved() {

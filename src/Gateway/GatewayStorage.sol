@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-abstract contract GatewayStorage is OwnableUpgradeable {
+abstract contract GatewayStorage is Ownable {
+    constructor(address initialOwner) Ownable(initialOwner) {}
+
     /**Storage var */
     struct AdapterParams {
         address refound; // refound address

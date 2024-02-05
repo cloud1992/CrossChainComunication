@@ -4,6 +4,8 @@ pragma solidity ^0.8.13;
 import "./GatewayStorage.sol";
 
 abstract contract GatewayConfig is GatewayStorage {
+    constructor(address initialOwner) GatewayStorage(initialOwner) {}
+
     // set onlyApproved
     function setOnlyApproved(address _addr, bool _status) external onlyOwner {
         _onlyApproved[_addr] = _status;
