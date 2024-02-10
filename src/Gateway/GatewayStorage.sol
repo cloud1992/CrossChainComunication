@@ -32,4 +32,6 @@ abstract contract GatewayStorage is Ownable {
 
     // mapping for onlyApproved
     mapping(address => bool) internal _onlyApproved;
+
+    uint nonce;
 }

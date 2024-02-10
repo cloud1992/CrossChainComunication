@@ -3,8 +3,9 @@ pragma solidity ^0.8.13;
 
 import "./GatewayConfig.sol";
 import "../WormHole/WormHoleGateway.sol";
+import "./IGateway.sol";
 
-contract Gateway is GatewayConfig, WormHoleGateway {
+contract Gateway is IGateway, GatewayConfig, WormHoleGateway {
     receive() external payable {}
 
     constructor(
@@ -24,7 +25,9 @@ contract Gateway is GatewayConfig, WormHoleGateway {
         string calldata text,
         uint valueOnDst,
         uint gasOnDst
-    ) external payable {
+    ) external payable OnlyApproved {
+        // update nonce
+        nonce++;
         // sendWormHole
         sendWormHole(
             chainIdToWormHoleChainId[dstChainId],
