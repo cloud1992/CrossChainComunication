@@ -8,3 +8,11 @@ deny_warnings = true
 solc-version = "0.8.21"
 
 
+[rpc_endpoints]
+sepolia = "${SEPOLIA_RPC_URL}"
+bsc-testnet = "${BSC_RPC_URL}"
+mumbai = "${MUMBAI_RPC_URL}"
+
+[etherscan]
+sepolia = { key = "${ETHERSCAN_API_KEY}" }
+
