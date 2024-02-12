@@ -26,10 +26,6 @@ abstract contract GatewayStorage is Ownable {
     mapping(uint => uint16) public chainIdToLayerZeroChainId;
     mapping(uint16 => uint) public layerZeroChainIdToChainId;
 
-    // for whormhole
-    mapping(uint => uint16) public chainIdToWormHoleChainId;
-    mapping(uint16 => uint) public wormHoleChainIdToChainId;
-
     // mapping for onlyApproved
     mapping(address => bool) internal _onlyApproved;
 

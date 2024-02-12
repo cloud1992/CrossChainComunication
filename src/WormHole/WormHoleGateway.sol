@@ -5,9 +5,12 @@ import "wormhole-solidity-sdk/interfaces/IWormholeRelayer.sol";
 import "wormhole-solidity-sdk/interfaces/IWormholeReceiver.sol";
 
 abstract contract WormHoleGateway is IWormholeReceiver {
-    event WormHoleGatewayReceive(uint16 senderChain);
+    event WormHoleGatewayReceive(uint senderChain);
 
     IWormholeRelayer public immutable wormholeRelayer;
+
+    mapping(uint => uint16) public chainIdToWormHoleChainId;
+    mapping(uint16 => uint) public wormHoleChainIdToChainId;
 
     constructor(address _wormholeRelayer) {
         wormholeRelayer = IWormholeRelayer(_wormholeRelayer);
@@ -56,8 +59,9 @@ abstract contract WormHoleGateway is IWormholeReceiver {
         bytes32 // unique identifier of delivery
     ) public payable override {
         require(msg.sender == address(wormholeRelayer), "Only relayer allowed");
-        _recieve(sourceChain, payload);
-        emit WormHoleGatewayReceive(sourceChain);
+        uint sourceChainId = wormHoleChainIdToChainId[sourceChain];
+        _recieve(sourceChainId, payload);
+        emit WormHoleGatewayReceive(sourceChainId);
     }
 
     function _recieve(uint srcChainId, bytes memory payload) internal virtual;

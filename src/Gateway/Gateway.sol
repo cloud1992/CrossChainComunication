@@ -18,6 +18,14 @@ contract Gateway is IGateway, GatewayConfig, WormHoleGateway {
         _;
     }
 
+    function setChainToWHChainId(
+        uint chainId,
+        uint16 whChainId
+    ) external onlyOwner {
+        chainIdToWormHoleChainId[chainId] = whChainId;
+        wormHoleChainIdToChainId[whChainId] = chainId;
+    }
+
     // send function
     function send(
         uint dstChainId,
@@ -28,6 +36,10 @@ contract Gateway is IGateway, GatewayConfig, WormHoleGateway {
     ) external payable OnlyApproved {
         // update nonce
         nonce++;
+        if (block.chainid == dstChainId) {
+            // TODO
+            return;
+        }
         // sendWormHole
         sendWormHole(
             chainIdToWormHoleChainId[dstChainId],

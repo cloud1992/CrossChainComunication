@@ -18,12 +18,4 @@ abstract contract GatewayConfig is GatewayStorage {
         chainIdToLayerZeroChainId[chainId] = lzChainId;
         layerZeroChainIdToChainId[lzChainId] = chainId;
     }
-
-    function setChainToWHChainId(
-        uint chainId,
-        uint16 whChainId
-    ) external onlyOwner {
-        chainIdToWormHoleChainId[chainId] = whChainId;
-        wormHoleChainIdToChainId[whChainId] = chainId;
-    }
 }
