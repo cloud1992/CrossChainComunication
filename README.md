@@ -1,17 +1,8 @@
-## Foundry
+## Cross-Chain communication
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+**The purpose of this repo is the study and development of a gateway responsible for cross-chain communication. We will use different cross-chain protocols such as WormHole, LayerZero, CCIP, and possibly Axelar.**
 
-Foundry consists of:
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
-
-## Documentation
-
-https://book.getfoundry.sh/
 
 ## Usage
 
@@ -21,41 +12,14 @@ https://book.getfoundry.sh/
 $ forge build
 ```
 
-### Test
-
-```shell
-$ forge test
-```
-
-### Format
-
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
 
 ### Deploy
 
 ```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
+$ forge script "script/DeployScript.s.sol:Deploy${network}" --rpc-url $NETWORK_RPC_URL --optimize
 ```
+where network refers to BSCTESNET, FUJI, MUMBAI, etc...
 
-### Cast
-
-```shell
-$ cast <subcommand>
-```
 
 ### Help
 
